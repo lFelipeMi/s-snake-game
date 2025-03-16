@@ -180,6 +180,8 @@ const snakeGame = () => {
 snakeGame();
 
 document.addEventListener("keydown", ({ key }) => {
+    if(direction === null) return;
+
     if (key === "ArrowRight" && direction !== "left") {
         direction = "right";
     }
@@ -203,4 +205,5 @@ buttonPlay.addEventListener("click", () => {
     canvas.style.filter = "none";
 
     snake = [...initialPosition];
+    direction = undefined;
 });
