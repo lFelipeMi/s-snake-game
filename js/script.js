@@ -6,7 +6,12 @@ const audio = new Audio("../midia/audio.mp3");
 const size = 30;
 
 const snake = [
-    { x: 210, y: 210 }
+    { x: 210, y: 210 },
+    { x: 240, y: 210 },
+    { x: 270, y: 210 },
+    { x: 300, y: 210 },
+    { x: 330, y: 210 },
+    { x: 360, y: 210 }
 ];
 
 const randomNumber = (min, max) => {
@@ -124,15 +129,38 @@ const checkEat = () => {
 
 }
 
+const checkCollision = () => {
+    const head = snake.at(-1);
+    const canvaLimit = canvas.width - size;
+
+    const wallCollision = 
+        head.x < 0 || head.x > canvaLimit || head.y < 0 || head.y > canvaLimit;
+
+    const selfCollision = snake.find(({ x, y }, index) => {
+        return (index < snake.length - 2) && x === head.x && y === head.y;
+    })
+
+    if (wallCollision || selfCollision) {
+        gameOver();
+        alert("você perdeu");
+    }
+}
+
+const gameOver = () => {
+    direction = null;
+}
+
 const snakeGame = () => {
     clearInterval(loopId);
     ctx.clearRect(0, 0, 600, 600);
 
     drawGrid();
-    drawSnake();
     drawFood();
     moveSnake();
+    drawSnake();
     checkEat();
+    checkCollision();
+    // a ordem dos fatores altera o resultado hahaahahaa
 
     loopId = setTimeout(() => {
         snakeGame();
