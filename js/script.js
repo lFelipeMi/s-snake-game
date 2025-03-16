@@ -1,6 +1,8 @@
 const canvas = document.querySelector("[snake]");
 const ctx = canvas.getContext("2d");
 
+const audio = new Audio("../midia/audio.mp3");
+
 const size = 30;
 
 const snake = [
@@ -97,7 +99,30 @@ const drawGrid = () => {
     }
 }
 
-// drawGrid();
+const checkEat = () => {
+    const head = snake.at(-1);
+    
+    if(head.x === food.x && head.y === food.y){
+        snake.push(head);
+        audio.play();
+        /*food.x = randomPosition();
+        food.y = randomPosition();
+        food.color = randomColor();*/
+
+        let x = randomPosition();
+        let y = randomPosition();
+
+        while (snake.find((position) => position.x === x && position.y === y)){
+            x = randomPosition();
+            y = randomPosition();
+        }
+
+        food.x = x;
+        food.y = y;
+        food.color = randomColor();
+    }
+
+}
 
 const snakeGame = () => {
     clearInterval(loopId);
@@ -107,10 +132,11 @@ const snakeGame = () => {
     drawSnake();
     drawFood();
     moveSnake();
+    checkEat();
 
     loopId = setTimeout(() => {
         snakeGame();
-    }, 100);
+    }, 200);
 };
 
 snakeGame();
