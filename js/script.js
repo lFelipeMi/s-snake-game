@@ -46,10 +46,30 @@ const moveSnake = () => {
     snake.shift()
 };
 
+const drawGrid = () => {
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "var(--cor-fundo)";
+
+    for (let i = 30; i < canvas.width; i += 30) {
+        ctx.beginPath();
+        ctx.lineTo(i, 0);
+        ctx.lineTo(i, 600);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.lineTo(0, i);
+        ctx.lineTo(600, i);
+        ctx.stroke();
+    }
+}
+
+// drawGrid();
+
 const snakeGame = () => {
     clearInterval(loopId);
     ctx.clearRect(0, 0, 600, 600);
 
+    drawGrid();
     drawSnake();
     moveSnake();
 
