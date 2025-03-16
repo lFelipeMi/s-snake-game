@@ -7,7 +7,41 @@ const snake = [
     { x: 210, y: 210 }
 ];
 
+const randomNumber = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+};
+
+const randomPosition = (min, max) => {
+    const number = randomNumber(0, (canvas.width - size) / size);
+    return number * 30;
+};
+
+const randomColor = () => {
+    const red = randomNumber(0, 255);
+    const green = randomNumber(0, 255);
+    const blue = randomNumber(0, 255);
+
+    return `rgb(${red}, ${green}, ${blue})`;
+};
+
+const food = {
+    x: randomPosition(),
+    y: randomPosition(),
+    color: randomColor()
+};
+
 let direction, loopId;
+
+const drawFood = () => {
+
+    const { x, y, color } = food
+
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 4;
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, size, size);
+    ctx.shadowBlur = 0;
+}
 
 const drawSnake = () => {
     ctx.fillStyle = "#ddd";
@@ -71,6 +105,7 @@ const snakeGame = () => {
 
     drawGrid();
     drawSnake();
+    drawFood();
     moveSnake();
 
     loopId = setTimeout(() => {
