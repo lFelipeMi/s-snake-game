@@ -8,6 +8,8 @@ const snake = [
     { x: 230, y: 200 }
 ];
 
+let direction, loopId;
+
 const drawSnake = () => {
     ctx.fillStyle = "#ddd";
 
@@ -19,6 +21,46 @@ const drawSnake = () => {
 
         ctx.fillRect(position.x, position.y, size, size);
     });
-}
+};
 
-drawSnake();
+const moveSnake = () => {
+    if(!direction) return;
+
+    const head = snake.at(-1);
+
+    if (direction === "right") {
+        snake.push({ x: head.x + size, y: head.y})
+    }
+
+    if (direction === "left") {
+        snake.push({ x: head.x - size, y: head.y})
+    }
+
+    if (direction === "up") {
+        snake.push({ x: head.x, y: head.y - size})
+    }
+
+    if (direction === "down") {
+        snake.push({ x: head.x, y: head.y + size})
+    }
+
+    snake.shift()
+};
+
+const snakeGame = () => {
+    clearInterval(loopId);
+    ctx.clearRect(0, 0, 600, 600);
+
+    drawSnake();
+    moveSnake();
+
+    loopId = setTimeout(() => {
+        snakeGame();
+    }, 100);
+};
+
+snakeGame();
+
+document.addEventListener("keydown", (event) => {
+    console.log(event.key);
+})
