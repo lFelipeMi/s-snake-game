@@ -4,8 +4,7 @@ const ctx = canvas.getContext("2d");
 const size = 30;
 
 const snake = [
-    { x: 200, y: 200 },
-    { x: 230, y: 200 }
+    { x: 210, y: 210 }
 ];
 
 let direction, loopId;
@@ -61,6 +60,20 @@ const snakeGame = () => {
 
 snakeGame();
 
-document.addEventListener("keydown", (event) => {
-    console.log(event.key);
+document.addEventListener("keydown", ({ key }) => {
+    if (key === "ArrowRight" && direction !== "left") {
+        direction = "right";
+    }
+
+    if (key === "ArrowLeft" && direction !== "right") {
+        direction = "left";
+    }
+
+    if (key === "ArrowUp" && direction !== "down") {
+        direction = "up";
+    }
+
+    if (key === "ArrowDown" && direction !== "up") {
+        direction = "down";
+    }
 })
